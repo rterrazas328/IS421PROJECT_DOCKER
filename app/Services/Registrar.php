@@ -1,6 +1,7 @@
 <?php namespace App\Services;
 
 use App\User;
+use App\UserProfile;
 use Validator;
 use Illuminate\Contracts\Auth\Registrar as RegistrarContract;
 
@@ -33,7 +34,7 @@ class Registrar implements RegistrarContract {
 	 */
 	public function create(array $data)
 	{
-		return User::create([
+		$user = User::create([
 			'name' => $data['signup-v1-firstname'],
 			'last' => $data['signup-v1-lastname'],
 			'user' => $data['signup-v1-username'],
@@ -41,6 +42,11 @@ class Registrar implements RegistrarContract {
 			'password' => bcrypt($data['signup-v1-password']),
 			//'remember_token' => $data['remember_token'],
 		]);
+		$userProfile = new UserProfile;
+		$userProfile->id = $user->id;
+		$userProfile->save();
+
+		return $user;
 	}
 
 }
