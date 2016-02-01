@@ -16,7 +16,11 @@
 
 					<div class="col-md-10 col-md-offset-1">
 						<a href="profile" class="thumbnail" >
-							<img class="avatar" src="/image" />
+							@if( !isset($profile_picture))
+								<img class="img-responsive" src="/img/icon.png" alt="">
+							@else
+								<img class="avatar" src="/image" />
+							@endif
 						</a>
 						<strong class="name"></strong>
 						<span class="button following">Following</span>

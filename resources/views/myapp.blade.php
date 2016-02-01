@@ -64,7 +64,13 @@
                 </button>
                 <a class="navbar-brand " href="#">
                     @if(Auth::check())
-                        <img id="brand-image" class="img-circle" src="/image"/>
+                        $user = Auth::user();
+                        $profile = $user->profile();
+                        @if( !isset($profile->profile_picture))
+                            <img class="img-responsive" src="/img/icon.png" alt="">
+                        @else
+                            <img class="avatar" src="/image" />
+                        @endif
                     @else
                         MyUsic
                     @endif
