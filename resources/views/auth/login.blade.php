@@ -18,7 +18,7 @@
 				</ul>
 			</div>
 		@endif
-		<form id="form-signin_v1" name="form-signin_v1" action="/login" method="post" align="center" class="form-horizontal col-md-4 col-md-offset-4">
+		<form id="form-signin_v1" name="form-signin_v1" action="/auth/login" method="post" align="center" class="form-horizontal col-md-4 col-md-offset-4">
 			<input type="hidden" name="_token" value='{{ csrf_token() }}'>
 			<input type="hidden" name="honeypot" value="IS-421-RRZ" />
 			<label>
