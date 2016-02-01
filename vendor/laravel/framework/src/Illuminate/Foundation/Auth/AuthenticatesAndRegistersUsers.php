@@ -48,13 +48,6 @@ trait AuthenticatesAndRegistersUsers {
 		}
 
 		$this->auth->login($this->registrar->create($request->all()));
-		$userID = Auth::user()['id'];
-		//$userProfile = UserProfile::find($userID);
-		//if($userProfile == null){
-			//create new row
-			$userProfile = new UserProfile;
-			$userProfile->id = $userID;
-		//}
 
 		return redirect($this->redirectPath());
 	}
