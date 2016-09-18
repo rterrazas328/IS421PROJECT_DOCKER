@@ -28,7 +28,7 @@ trait ResetsPasswords {
 	 */
 	public function getEmail()
 	{
-		return view('auth.password', ['page_name' => 'password']);
+		return view('auth.password');
 	}
 
 	/**
@@ -79,7 +79,7 @@ trait ResetsPasswords {
 			throw new NotFoundHttpException;
 		}
 
-		return view('auth.reset', ['page_name' => 'reset'])->with('token', $token);
+		return view('auth.reset')->with('token', $token);
 	}
 
 	/**
