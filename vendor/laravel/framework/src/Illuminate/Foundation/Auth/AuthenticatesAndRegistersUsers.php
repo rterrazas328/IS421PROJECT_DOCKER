@@ -27,7 +27,7 @@ trait AuthenticatesAndRegistersUsers {
 	 */
 	public function getRegister()
 	{
-		return view('auth.register');
+		return view('auth.register', ['page_name' => 'register']);
 	}
 
 	/**
@@ -59,7 +59,7 @@ trait AuthenticatesAndRegistersUsers {
 	 */
 	public function getLogin()
 	{
-		return view('auth.login');
+		return view('auth.login', ['page_name' => 'login']);
 	}
 
 	/**
@@ -71,10 +71,10 @@ trait AuthenticatesAndRegistersUsers {
 	public function postLogin(Request $request)
 	{
 		$this->validate($request, [
-			'email' => 'required|email', 'password' => 'required',
+			'user' => 'required', 'password' => 'required',
 		]);
 
-		$credentials = $request->only('email', 'password');
+		$credentials = $request->only('user', 'password');
 
 		if ($this->auth->attempt($credentials, $request->has('remember')))
 		{
@@ -82,9 +82,9 @@ trait AuthenticatesAndRegistersUsers {
 		}
 
 		return redirect($this->loginPath())
-					->withInput($request->only('email', 'remember'))
+					->withInput($request->only('user', 'remember'))
 					->withErrors([
-						'email' => $this->getFailedLoginMessage(),
+						'user' => $this->getFailedLoginMessage(),
 					]);
 	}
 
