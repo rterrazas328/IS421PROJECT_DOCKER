@@ -49,9 +49,12 @@ class GuestController extends Controller {
 
 		$userEmail = $request->only('email');
 
-		$results = DB::select('SELECT user FROM users WHERE email = :em', ['em' => $userEmail['email']]);
 
-		$eMessage = "Your username is ".$results[0]['user'];
+		$results = DB::select('SELECT user FROM users WHERE email = ?', [$userEmail['email']]);
+
+
+		//$eMessage = "Your username is ".$results[0]['user'];
+		$eMessage = "Your username is ".$results[0]->user;
 
 		if($results){
 			Mail::raw($eMessage, function($message) use ($userEmail){
