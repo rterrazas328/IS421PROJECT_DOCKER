@@ -41,7 +41,11 @@ class UserController extends Controller {
 	 */
 	public function index()
 	{
-		return view('home', ['page_name' => 'home']);
+		$userID = Auth::user()['id'];
+
+        $userTracks = DB::select('SELECT * FROM music where band_id = ?', [$userID]);
+
+		return view('home', ['data' => $userTracks, 'page_name' => 'home']);
 	}
 
 	public function getProfile(){
@@ -128,7 +132,11 @@ class UserController extends Controller {
 		]);
 
 		$userID = Auth::user()['id'];
-
+		/*echo "has file?: ".print_r(RequestF::hasFile('image'));
+        var_dump(RequestF::hasFile('image'));
+        var_dump(RequestF::hasFile('image') === true);
+        var_dump(RequestF::hasFile('image') == true);
+        var_dump(RequestF::hasFile('image') ? 'truthy' : 'falsey');*/
 		if (RequestF::hasFile('image')){
 			$file = RequestF::file('image');
 			if ($file->isValid()){

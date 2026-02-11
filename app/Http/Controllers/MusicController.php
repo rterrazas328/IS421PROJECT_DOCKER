@@ -1,14 +1,15 @@
 <?php namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Track;
+use App\Playlist;
 use RequestF;
+use Illuminate\Http\Request;
+use Validator;
 use DB;
 use Mail;
 use Auth;
 use Illuminate\Http\RedirectResponse;
 use Storage;
-use App\Track;
-use App\Playlist;
 
 class MusicController extends Controller{
 
@@ -51,11 +52,33 @@ class MusicController extends Controller{
             'mp3' => 'max:7000',
         ]);
         $userID = Auth::user()['id'];
+        /*echo "In SaveTrack()";
+        echo "RequestF: ".print_r(RequestF::file('mp3'));
+        echo "has file?: ".print_r(RequestF::hasFile('mp3'));
+        var_dump(RequestF::hasFile('mp3'));
+        var_dump(RequestF::hasFile('mp3') === true);
+        var_dump(RequestF::hasFile('mp3') == true);
+        var_dump(RequestF::hasFile('mp3') ? 'truthy' : 'falsey');
+        echo "Dumping request:";
+        dd($_FILES);*/
 
-        if (RequestF::hasFile('mp3')){
+       /* dd([
+        'Facade hasFile' => RequestF::hasFile('mp3'),
+        'Helper hasFile' => $request->hasFile('mp3'),
+        'Facade file' => RequestF::file('mp3'),
+        'Helper file' => $request->file('mp3'),
+        'FILES superglobal' => $_FILES,
+            ]);*/
+
+
+
+        //if (RequestF::hasFile('mp3')){
+        if ($request->hasFile('mp3')){
             $file = RequestF::file('mp3');
+            //echo "Request had file" . print_r($file);
             if ($file->isValid()){
                 $target_dir = "audio/".$userID;
+                //echo "Target Dir:" . print_r($target_dir);
                 //if target_dir doesn't exist, create it
                 if(!is_dir($target_dir)){
                     Storage::makeDirectory($target_dir);
@@ -69,8 +92,9 @@ class MusicController extends Controller{
                         $track->band_id = $userID;
                         $track->song_name = RequestF::input('track');
                         $track->authors = RequestF::input('artist');
+                        $track->genre = RequestF::input('genre');
                         $track->file_path = storage_path() . "/app/" . $target_dir . "/" . $file->getClientOriginalName();
-
+                        echo "Track is :". print_r($track);
                         $track->save();
                         return new RedirectResponse(url('/tracks'));
                     //}

@@ -39,24 +39,18 @@
 					<h2>My Tracks</h2>
 					<table class="table table-condensed">
 						<thead>
-						</thead>
-						<tr>
 							<th>Artist/Band</th>
 							<th>Track Name</th>
 							<th>Genre</th>
-						</tr>
-						<tr>
-							<td><a href="PlayListSongs.html">Jay Z</td>
-							<td>Roc Boys</td>
-							<td>Hip Hop</td>
-							<td><audio controls> <source src="horse.ogg" type="audio/ogg"><source src="horse.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></td>
-						</tr>
-						<tr>
-							<td><a href="PlayListSongs.html">Jay Z</a></td>
-							<td>Pound Cake</td>
-							<td>Hip Hop</td>
-							<td><audio controls> <source src="/music/vas.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio></td>
-						</tr>
+						</thead>
+						@foreach($data as $track)
+                            <tr>
+                                <td>{{ $track->authors }}</td>
+                                <td>{{ $track->song_name }}</td>
+                                <td>{{ $track->genre }}</td>
+                                <td><audio controls> <source src="{{ "audio/".$track->id }}" type="audio/mpeg">Your browser does not support the audio element.</audio></td>
+                            </tr>
+                        @endforeach
 					</table>
 				</div>
 			</div>

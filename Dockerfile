@@ -27,6 +27,9 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . .
 
+#copy custom php ini file
+COPY ./config/php.ini /usr/local/etc/php/conf.d/php.ini
+
 # Install dependencies
 RUN composer install --no-scripts
 

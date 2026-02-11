@@ -15,7 +15,9 @@ class CreateMusicTable extends Migration {
 		Schema::create('music', function(Blueprint $table)
 		{
 			//['band_id', 'song_name', 'authors', 'genre', 'file_path'];
-			$table->increments('band_id');
+			$table->increments('id');
+			$table->integer('band_id')->unsigned();
+			$table->foreign('band_id')->references('id')->on('users');
 			$table->string('song_name');
 			$table->string('authors');
 			$table->string('genre');

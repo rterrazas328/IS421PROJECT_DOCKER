@@ -24,7 +24,7 @@
                         </ul>
                     </div>
                 @endif
-                <form class="form-horizontal col-md-4 col-md-offset-4" id="form-uploadtracklist" name="form-uploadtrack" action="savetrack" method="POST" align="center" enctype="multipart/form-data" >
+                <form class="form-horizontal col-md-4 col-md-offset-4" id="form-uploadtracklist" name="form-uploadtrack" action="savetrack" method="POST" align="center" enctype="multipart/form-data" role="form" >
                     <input type="hidden" name="_token" value='{{ csrf_token() }}'>
                     <label>
                         Artist/Band
@@ -41,7 +41,7 @@
                         &nbsp;
                         <input name="genre" id="genre" type="text" data-validation="[NOTEMPTY]"  class="form-control">
                     </label><br><br><br>
-                    <input name="mp3" id="input-1a" type="file" class="file" data-show-preview="false"><br>
+                    <input name="mp3" id="mp3" type="file" class="file" data-show-preview="false"><br>
                     <button type="submit" class="form-control btn btn-success">Upload</button>
                     <br>
                 </form>
