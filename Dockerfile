@@ -1,4 +1,4 @@
-FROM php:5.6-fpm-jessie
+FROM php:5.6-apache
 
 # Update apt sources to point to the Debian archive for Jessie EOL repositories
 RUN echo "deb http://archive.debian.org/debian/ jessie main" > /etc/apt/sources.list \
@@ -15,6 +15,9 @@ RUN apt-get update && apt-get install -y --allow-unauthenticated \
     unzip \
     && rm -rf /var/lib/apt/lists/*
 
+#Install Apache mod_rewrite
+RUN a2enmod rewrite
+
 # Install PHP extensions
 RUN docker-php-ext-install pdo_mysql mbstring tokenizer mcrypt
 
@@ -30,6 +33,9 @@ COPY . .
 #copy custom php ini file
 COPY ./config/php.ini /usr/local/etc/php/conf.d/php.ini
 
+COPY ./config/Laravel.conf /etc/apache2/sites-available/000-default.conf
+
+
 # Install dependencies
 RUN composer install --no-scripts
 
@@ -43,4 +49,4 @@ RUN chmod -R 775 storage bootstrap/cache
 # Expose port 8000 and start php-fpm server
 EXPOSE 8000
 #CMD ["php-fpm"]
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+#CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
