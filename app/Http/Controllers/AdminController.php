@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers;
-use RequestF;
+use Illuminate\Http\Request;
+//use RequestF;
 use DB;
 
 class AdminController extends Controller {
@@ -25,7 +26,7 @@ class AdminController extends Controller {
 
     public function updateRoles(){
         //first update roles in DB
-        $data=RequestF::all();
+        $data=Request::all();
 
         $adminRoles = array();//1
         $userRoles = array();//0

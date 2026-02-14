@@ -33,3 +33,7 @@
 **/vendor
 LICENSE
 README.md
+vendor
+storage/app/*
+.env
+.env.old

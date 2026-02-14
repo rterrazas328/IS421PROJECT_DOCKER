@@ -2,7 +2,7 @@
 
 use App\Track;
 use App\Playlist;
-use RequestF;
+//use RequestF;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -74,7 +74,7 @@ class MusicController extends Controller{
 
         //if (RequestF::hasFile('mp3')){
         if ($request->hasFile('mp3')){
-            $file = RequestF::file('mp3');
+            $file = $request->file('mp3');
             //echo "Request had file" . print_r($file);
             if ($file->isValid()){
                 $target_dir = "audio/".$userID;
@@ -90,9 +90,9 @@ class MusicController extends Controller{
                         $track = new Track;
                         //fill in fields
                         $track->band_id = $userID;
-                        $track->song_name = RequestF::input('track');
-                        $track->authors = RequestF::input('artist');
-                        $track->genre = RequestF::input('genre');
+                        $track->song_name = $request->input('track');
+                        $track->authors = $request->input('artist');
+                        $track->genre = $request->input('genre');
                         $track->file_path = storage_path() . "/app/" . $target_dir . "/" . $file->getClientOriginalName();
                         echo "Track is :". print_r($track);
                         $track->save();
@@ -108,7 +108,7 @@ class MusicController extends Controller{
     public function deleteTrack(){
         $userID = Auth::user()['id'];
 
-        $data=RequestF::all();
+        $data=Request::all();
 
         foreach ($data as $name => $val){
 
@@ -153,14 +153,14 @@ class MusicController extends Controller{
 
         //fill in fields
         $playlist->user_id = $userID;
-        $playlist->playlist_name = RequestF::input('playlistName');
+        $playlist->playlist_name = $request->input('playlistName');
 
         //create playlist
         $playlist->save();
 
         $insertedID = $playlist->id;
             //for each checkbox checked add song in playlist songs table
-        $data=RequestF::all();
+        $data=Request::all();
 
         foreach ($data as $name => $val){
 
@@ -186,7 +186,7 @@ class MusicController extends Controller{
             'delete' => 'required',
         ]);
 
-        $playlistID = RequestF::input('delete');
+        $playlistID = $request->input('delete');
 
         $playlist = Playlist::find($playlistID);
 

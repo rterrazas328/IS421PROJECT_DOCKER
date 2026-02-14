@@ -2,7 +2,7 @@
 
 use App\UserProfile;
 use App\User;
-use RequestF;
+//use RequestF;
 use Illuminate\Http\Request;
 use Validator;
 use DB;
@@ -92,7 +92,7 @@ class UserController extends Controller {
 			'city' => 'alpha|between:2,30',
 			'state' => 'alpha|between:2,20',
 			'country' => 'alpha|between:2,30',
-			'bday' => 'date',
+			'bday' => 'alpha|between:9,10',
 			'phone' => 'alpha_dash|between:7,25',
 			'email' => 'email|max:50',
 		]);
@@ -106,18 +106,18 @@ class UserController extends Controller {
 		}
 		//fill in fields
 		$userProfile->id = $userID;
-		$user->name = RequestF::input('firstname');
-		$user->last = RequestF::input('lastname');
-		$user->user = RequestF::input('username');
-		$userProfile->address = RequestF::input('address');
-		$userProfile->city = RequestF::input('city');
-		$userProfile->state = RequestF::input('state');
-		$userProfile->country = RequestF::input('country');
-		$bday = RequestF::input('bday') == '' ?  null : RequestF::input('bday');
+		$user->name = $request->input('firstname');
+		$user->last = $request->input('lastname');
+		$user->user = $request->input('username');
+		$userProfile->address = $request->input('address');
+		$userProfile->city = $request->input('city');
+		$userProfile->state = $request->input('state');
+		$userProfile->country = $request->input('country');
+		$bday = $request->input('bday') == '' ?  null : $request->input('bday');
 		$userProfile->birthdate = $bday == null ? null : date("Y-m-d", strtotime($bday));
 
-		$userProfile->phone = RequestF::input('phone');
-		$user->email = RequestF::input('email');
+		$userProfile->phone = $request->input('phone');
+		$user->email = $request->input('email');
 
 		//insert the rows
 		$user->save();
@@ -137,8 +137,8 @@ class UserController extends Controller {
         var_dump(RequestF::hasFile('image') === true);
         var_dump(RequestF::hasFile('image') == true);
         var_dump(RequestF::hasFile('image') ? 'truthy' : 'falsey');*/
-		if (RequestF::hasFile('image')){
-			$file = RequestF::file('image');
+		if ($request->hasFile('image')){
+			$file = $request->file('image');
 			if ($file->isValid()){
 				$target_dir = "images/".$userID;
 				//check if /storage/app/images/userid is a real directory that exists
@@ -153,7 +153,7 @@ class UserController extends Controller {
 					//now save entire filepath to DB
 					$userProfile = UserProfile::find($userID);
 
-					$file = RequestF::file('image');
+					$file = $request->file('image');
 					if($userProfile == null) {
 						$userProfile = new UserProfile;
 						$userProfile->id = $userID;
@@ -185,7 +185,7 @@ class UserController extends Controller {
 		}
 
 		//fill in fields
-		$userProfile->about_me = RequestF::input('aboutme');
+		$userProfile->about_me = $request->input('aboutme');
 		$userProfile->save();
 		return new RedirectResponse(url('/profile'));
 	}

@@ -89,9 +89,9 @@
 				<p class="text-center">
 
 				<button type="submit" class="btn btn-primary btn-lg active">Sign Up</button>
-				<button id="prefill-signup_v1" type="button" class="">
+				<!--<button id="prefill-signup_v1" type="button" class="">
 					Prefill
-				</button>
+				</button> -->
 				<p class="text-center">Already a member ?<a href="/auth/login" > Go and log in</a></p>
 			</div>
 		</form>
