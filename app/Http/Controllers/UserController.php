@@ -45,6 +45,17 @@ class UserController extends Controller {
 
         $userTracks = DB::select('SELECT * FROM music where band_id = ?', [$userID]);
 
+		//$profile = null;
+
+		//get user profile if it exists
+		/*$userProfile = UserProfile::find($userID);
+
+		if ($userProfile != null && $userProfile->profile_picture != null){
+
+			$profile = $userProfile->profile_picture;
+
+		}*/
+
 		return view('home', ['data' => $userTracks, 'page_name' => 'home']);
 	}
 
@@ -92,7 +103,7 @@ class UserController extends Controller {
 			'city' => 'alpha|between:2,30',
 			'state' => 'alpha|between:2,20',
 			'country' => 'alpha|between:2,30',
-			'bday' => 'alpha|between:9,10',
+			'bday' => 'date',
 			'phone' => 'alpha_dash|between:7,25',
 			'email' => 'email|max:50',
 		]);
@@ -114,8 +125,7 @@ class UserController extends Controller {
 		$userProfile->state = $request->input('state');
 		$userProfile->country = $request->input('country');
 		$bday = $request->input('bday') == '' ?  null : $request->input('bday');
-		$userProfile->birthdate = $bday == null ? null : date("Y-m-d", strtotime($bday));
-
+		$userProfile->birthdate = date("Y-m-d", strtotime($bday));
 		$userProfile->phone = $request->input('phone');
 		$user->email = $request->input('email');
 

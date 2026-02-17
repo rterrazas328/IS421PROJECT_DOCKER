@@ -50,3 +50,7 @@ RUN chmod -R 775 storage bootstrap/cache
 EXPOSE 8000
 #CMD ["php-fpm"]
 #CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+COPY ./config/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+

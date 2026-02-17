@@ -3,3 +3,4 @@
 .env.old
 storage/app/*
 vendor
+secrets

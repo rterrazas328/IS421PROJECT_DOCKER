@@ -9,27 +9,60 @@ services:
     volumes:
       - .:/var/www/html
     depends_on:
-      - db
-      - redis
+      db:
+        condition: service_healthy
+      
     environment:
       # Laravel environment variables
       APP_ENV: ${APP_ENV}
       APP_DEBUG: ${APP_DEBUG}
-      APP_KEY: ${APP_KEY}
+      #APP_KEY: ${APP_KEY}
+    secrets:
+      - app_key
+      - email_key
+      - email_password
+      - db_password
+      - db_root_password
   db:
     image: mysql:5.7
     ports:
       - "3306:3306"
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
       MYSQL_DATABASE: ${DB_DATABASE}
       MYSQL_USER: ${DB_USERNAME}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
     volumes:
       - db_data:/var/lib/mysql
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -u root --password=$(cat /run/secrets/db_root_password) > /dev/null || exit 1"
+        ]
+      interval: 05s
+      timeout: 10s
+      start_period: 30s
+
+    secrets:
+      - db_password
+      - db_root_password
   redis:
     image: redis:3.0
     ports:
       - "6379:6379"
+
+secrets:
+  app_key:
+    file: secrets/app_key.txt
+  email_key:
+    file: secrets/email_key.txt
+  email_password:
+    file: secrets/email_password.txt
+  db_password:
+    file: secrets/db_password.txt
+  db_root_password:
+    file: secrets/db_root.txt
+
 volumes:
   db_data:

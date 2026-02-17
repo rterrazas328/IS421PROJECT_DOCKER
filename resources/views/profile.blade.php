@@ -23,7 +23,7 @@
                                     <div class="form-group form-group-">
                                         <label class="control-label" for="imageprofile">Profile Picture:</label>
                                         <a href="#" class="thumbnail">
-                                            @if( !isset($profile_picture))
+                                            @if(empty($profile_picture))
                                                 <img class="img-responsive" src="/img/icon.png" alt="">
                                             @else
                                                 <img class="avatar" src="/image">
@@ -87,7 +87,11 @@
                             </div>
                             <div class="form-group form-group-sm">
                                 <label class="control-label" for="bdayprofile">Date Of Birth:</label>
-                                <input class="form-control" id="bdayprofile" name="bday" value="{{ $birthdate }}" type="text" />
+                                @if(empty($birthdate))
+                                    <input class="form-control" id="bdayprofile" name="bday" value="YYYY-MM-DD" type="text" />
+                                @else
+                                    <input class="form-control" id="bdayprofile" name="bday" value="{{ $birthdate }}" type="text" />
+                                @endif
                             </div>
                             <div class="form-group form-group-sm">
                                 <label class="control-label" for="phoneprofile">Phone Number:</label>
