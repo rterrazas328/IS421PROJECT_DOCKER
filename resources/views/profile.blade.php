@@ -87,7 +87,7 @@
                             </div>
                             <div class="form-group form-group-sm">
                                 <label class="control-label" for="bdayprofile">Date Of Birth:</label>
-                                @if(empty($birthdate))
+                                @if($birthdate == '0000-00-00')
                                     <input class="form-control" id="bdayprofile" name="bday" value="YYYY-MM-DD" type="text" />
                                 @else
                                     <input class="form-control" id="bdayprofile" name="bday" value="{{ $birthdate }}" type="text" />

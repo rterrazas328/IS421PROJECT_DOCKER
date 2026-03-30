@@ -63,11 +63,12 @@
                     <span class="icon-bar"></span>
                 </button>
                 <a class="navbar-brand " href="#">
-                    @if(Auth::check())
-                        @if( !isset(Auth::user()->profile()->profile_picture))
+<!-- -->
+                @if(Auth::check())
+                        @if(empty(Auth::user()->profile->profile_picture))
                             <img class="img-responsive" src="/img/icon.png" alt="" height="30" width="30">
                         @else
-                            <img class="avatar" src="/image" />
+                            <img class="avatar" src="/image" height="30" width="30"/>
                         @endif
                     @else
                         MyUsic

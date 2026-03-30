@@ -16,7 +16,7 @@
 
 					<div class="col-md-10 col-md-offset-1">
 						<a href="profile" class="thumbnail" >
-							@if( !isset($profile_picture))
+							@if( empty(Auth::user()->profile->profile_picture))
 								<img class="img-responsive" src="/img/icon.png" alt="">
 							@else
 								<img class="avatar" src="/image" />
