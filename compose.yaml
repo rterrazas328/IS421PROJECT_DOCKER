@@ -7,20 +7,31 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - .:/var/www/html
+      - app_data:/var/www/html
     depends_on:
       db:
         condition: service_healthy
       
     environment:
       # Laravel environment variables
-      APP_ENV: ${APP_ENV}
-      APP_DEBUG: ${APP_DEBUG}
-      #APP_KEY: ${APP_KEY}
+      APP_ENV: local
+      APP_DEBUG: true
+      EMAIL_DRIVER: smtp
+      EMAIL_PORT: 587
+      EMAIL_ENCRYPTION: tls
+      DB_HOST: db
+      REDIS_HOST: redis
+      CACHE_DRIVER: file
+      SESSION_DRIVER: file
     secrets:
       - app_key
+      - email_domain
+      - email_host
       - email_key
+      - email_username
       - email_password
+      - db_database
+      - db_username
       - db_password
       - db_root_password
   db:
@@ -29,9 +40,9 @@ services:
       - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
-      MYSQL_DATABASE: ${DB_DATABASE}
-      MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_DATABASE_FILE: /run/secrets/db_database
+      MYSQL_USER_FILE: /run/secrets/db_username
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
@@ -45,6 +56,8 @@ services:
       start_period: 30s
 
     secrets:
+      - db_database
+      - db_username
       - db_password
       - db_root_password
   redis:
@@ -55,14 +68,25 @@ services:
 secrets:
   app_key:
     file: secrets/app_key.txt
+  email_domain:
+    file: secrets/email_domain.txt
+  email_host:
+    file: secrets/email_host.txt
+  email_username:
+    file: secrets/email_username.txt
   email_key:
     file: secrets/email_key.txt
   email_password:
     file: secrets/email_password.txt
+  db_database:
+    file: secrets/db_database.txt
+  db_username:
+    file: secrets/db_username.txt
   db_password:
     file: secrets/db_password.txt
   db_root_password:
     file: secrets/db_root.txt
 
 volumes:
+  app_data:
   db_data:
